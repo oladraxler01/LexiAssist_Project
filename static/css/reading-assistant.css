@@ -1,0 +1,92 @@
+/* Puzzle Banner Styling (Matches image_8f6749.png) */
+.banner-card {
+    background-color: #D6EAF8; /* Light blue base */
+    background-image: url("{% static 'assets/puzzle-pattern.png' %}"); /* Ensure you have this pattern */
+    background-size: cover;
+    border-radius: 20px;
+    padding: 30px 50px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.banner-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.banner-text h2 {
+    font-size: 26px;
+    color: #000;
+    margin-bottom: 8px;
+}
+
+/* Upload Box Styling (Matches image_8f6346.png) */
+.upload-zone {
+    background-color: #F0F7F4;
+    border: 2px dashed #4A8C6F;
+    border-radius: 15px;
+    padding: 60px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 25px;
+}
+
+.cloud-circle {
+    background-color: #4A8C6F;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+}
+
+.upload-prompt span {
+    color: #4A8C6F;
+    font-weight: 700;
+}
+
+/* Document Pill Styling (Matches image_8f6020.png) */
+.file-pill {
+    background-color: #F3F4F6; /* Light grey */
+    border-radius: 12px;
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: fit-content;
+    min-width: 260px;
+    margin-top: 10px;
+}
+
+.pill-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pill-icon { width: 24px; }
+
+.file-title { font-weight: 600; color: #333; display: block; }
+.file-format { font-size: 12px; color: #888; }
+
+.pill-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+}
+
+.main-submit-btn {
+    background-color: #4A8C6F;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-top: 25px;
+    cursor: pointer;
+}

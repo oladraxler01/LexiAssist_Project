@@ -1,0 +1,225 @@
+/* Layout Constraints */
+/* Update this section */
+.tts-container {
+    width: 100%;       /* Make it take full width */
+    max-width: 100%;   /* Remove the 1100px limit */
+    margin: 0;         /* Remove auto-centering */
+    padding: 30px;     /* Match the padding of your other pages */
+    box-sizing: border-box;
+}
+.page-title-row {
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.page-title-row h1 {
+    font-size: 24px;
+    color: #111827;
+    margin: 0;
+}
+
+.tool-icon-circle-small {
+    background: #438e64; /* Theme Green */
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+/* Update the header card */
+.tts-header-card {
+    width: 100%;       /* Ensure it stretches across */
+    background-color: #E6F0FF;
+    /* ... keep your existing pattern background code ... */
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 30px;
+    box-sizing: border-box; /* Ensures padding doesn't break the width */
+}
+
+.card-inner {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.header-illustration img {
+    max-width: 200px;
+    height: auto;
+}
+
+.header-text h2 {
+    font-size: 28px;
+    color: #1e3a8a;
+    margin: 0 0 10px 0;
+}
+
+.header-text p {
+    color: #4b5563;
+    font-size: 16px;
+    max-width: 400px;
+    margin: 0;
+}
+
+/* Update the upload box */
+.upload-box {
+    width: 100%;       /* Ensure it stretches across */
+    background-color: #f0fdf4;
+    border: 2px dashed #438e64;
+    border-radius: 16px;
+    padding: 60px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.upload-box:hover {
+    background-color: #dcfce7;
+}
+
+.upload-icon-circle-main {
+    background-color: #438e64;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+}
+
+.upload-main {
+    font-size: 16px;
+    color: #374151;
+    margin: 10px 0 5px;
+}
+
+.upload-main span {
+    color: #438e64;
+    font-weight: 700;
+}
+
+.upload-sub {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+/* Feedback Section (The Pill and Button) */
+.upload-feedback {
+    margin-top: 25px;
+    text-align: left;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.status-label {
+    font-size: 14px;
+    color: #4b5563;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.feedback-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+/* File Pill Card */
+.file-card-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f3f4f6;
+    padding: 12px 18px;
+    border-radius: 12px;
+    min-width: 320px;
+    border: 1px solid #e5e7eb;
+}
+
+.pill-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.pill-icon {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+}
+
+.pill-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-name {
+    font-size: 14px;
+    color: #111827;
+    font-weight: 600;
+}
+
+.file-meta-sub {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.remove-file-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #9ca3af;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 0 4px 0;
+}
+
+.remove-file-btn:hover {
+    color: #ef4444;
+}
+
+/* The Submit Button */
+.submit-btn-green {
+    background-color: #438e64; /* Your signature green */
+    color: white;
+    border: none;
+    padding: 14px 55px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(67, 142, 100, 0.2);
+    transition: all 0.2s ease;
+}
+
+.submit-btn-green:hover {
+    background-color: #367551;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(67, 142, 100, 0.3);
+}
+
+/* Footer */
+.processing-footer {
+    margin-top: 18px;
+    font-size: 13px;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.globe-icon {
+    font-size: 16px;
+}

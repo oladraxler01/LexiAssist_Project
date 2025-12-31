@@ -1,0 +1,81 @@
+/* static/css/landing.css */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* NAVIGATION */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 80px;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #4A8C6F;
+}
+
+.nav-links a {
+    text-decoration: none;
+    margin-left: 30px;
+    font-weight: 600;
+    color: #444;
+}
+
+.btn-primary {
+    background: #4A8C6F;
+    color: white !important;
+    padding: 10px 25px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+/* HERO SECTION */
+.hero {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+    padding: 0 20px;
+}
+
+.hero h1 {
+    font-size: 64px;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+    max-width: 800px;
+}
+
+.hero p {
+    font-size: 20px;
+    color: #666;
+    margin-bottom: 40px;
+    max-width: 600px;
+}
+
+.cta-button {
+    background: #4A8C6F;
+    color: white;
+    text-decoration: none;
+    padding: 18px 40px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(74, 140, 111, 0.2);
+}

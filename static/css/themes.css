@@ -1,0 +1,55 @@
+/* LIGHT MODE (Default) */
+:root {
+    --bg-body: #f8f9fa;
+    --bg-card: #ffffff;
+    --text-primary: #1a1a1a;
+    --border-color: #eeeeee;
+}
+
+/* DARK MODE COLORS */
+[data-theme="dark"] {
+    --bg-body: #383737;
+    --bg-card: #444242;
+    --text-primary: #f0f0f0;
+    --border-color: #333333;
+}
+
+/* Apply Variables Globally */
+body {
+    background-color: var(--bg-body) !important;
+    color: var(--text-primary) !important;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Update all cards and containers at once */
+#main-content, .editor-card, .tools-panel, .modal-content, #top-nav, #side-bar {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Ensure the writing area text is visible */
+#writing-area, textarea {
+    background-color: transparent !important;
+    color: var(--text-primary) !important;
+}
+
+/* Sidebar specifically */
+#side-bar {
+    background-color: #4A8C6F !important; /* LexiAssist Green */
+    color: white !important;
+}
+
+[data-theme="dark"] #side-bar {
+    background-color: #1a3329 !important; /* Darker green for dark mode */
+}
+
+/* Ensure links in the sidebar stay white */
+#side-bar .nav-item {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+#side-bar .nav-item.active {
+    background-color: white !important;
+    color: #4A8C6F !important; /* Text turns green when active */
+}

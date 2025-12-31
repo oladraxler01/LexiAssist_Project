@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500&family=Open+Sans:wght@400;600&family=Roboto+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/writing-assistant.css' %}">
+
+<div class="workspace-layout">
+    <section class="editor-card" id="mainEditor">
+        <div class="editor-header">
+            <span class="confidence-indicator">● Low confidence</span>
+
+            <div class="recording-controls">
+                <button id="mic-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                    </svg>
+                </button>
+                <div id="audio-wave" class="audio-animation hidden">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+
+                <button id="stop-btn" class="stop-btn hidden">Stop Recording</button>
+
+                <button id="clean-structure-btn" class="action-btn-green">Clean and Structure</button>
+            </div>
+        </div>
+
+        <textarea id="writing-area" placeholder="Start speaking your thoughts..."></textarea>
+
+        <div class="editor-footer">
+            <button class="copy-btn" id="copyText">📋 Copy to clipboard</button>
+        </div>
+    </section>
+
+    <aside class="tools-panel" id="rightPanel">
+        <div class="tools-header">
+            <h3>Tools</h3>
+            <div class="tools-icons">
+                <span class="bookmark-icon">🔖</span>
+                <button class="toggle-sidebar-btn" id="hideTools">›</button>
+            </div>
+        </div>
+
+        <div class="tool-item">
+            <div class="dropdown-wrapper">
+                <label for="fontSelect">Font Choice</label>
+                <select id="fontSelect">
+                    <option value="'Open Sans', sans-serif">Standard</option>
+                    <option value="'Lexend', sans-serif" selected>Lexend (Easy Reading)</option>
+                    <option value="'Roboto Mono', monospace">Focused (Mono)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="tool-item">
+            <div class="dropdown-wrapper">
+                <label for="spacingSelect">Spacing</label>
+                <select id="spacingSelect">
+                    <option value="1.6">Normal</option>
+                    <option value="2.2">Relaxed</option>
+                    <option value="2.8">Wide</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="tool-item tint-container">
+            <span>Tinted backgrounds</span>
+            <div class="tint-options">
+                <button class="tint-btn active" data-color="#ffffff" title="White"></button>
+                <button class="tint-btn" data-color="#fdf6e3" style="background: #fdf6e3;" title="Cream"></button>
+                <button class="tint-btn" data-color="#e3f2fd" style="background: #e3f2fd;" title="Soft Blue"></button>
+                <button class="tint-btn" data-color="#f1f8e9" style="background: #f1f8e9;" title="Mint"></button>
+            </div>
+        </div>
+
+        <div class="tools-footer-image">
+            <img src="{% static 'assets/reading woman.png' %}" alt="Illustration">
+            <div class="export-dropdown">
+                <button class="export-btn" id="exportBtn">↑ Export options ▾</button>
+                <div class="export-menu hidden" id="exportMenu">
+                    <button onclick="exportDoc('pdf')">Download as PDF</button>
+                    <button onclick="exportDoc('txt')">Download as Text</button>
+                </div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<button id="showTools" class="floating-show-btn">‹</button>
+
+<script>
+    const textArea = document.getElementById('writing-area');
+    const micBtn = document.getElementById('mic-btn');
+    const stopBtn = document.getElementById('stop-btn');
+    const wave = document.getElementById('audio-wave');
+    const panel = document.getElementById('rightPanel');
+
+    // 1. Sidebar Control
+    document.getElementById('hideTools').onclick = () => {
+        panel.classList.add('hidden');
+        document.getElementById('showTools').classList.add('visible');
+    };
+    document.getElementById('showTools').onclick = function() {
+        panel.classList.remove('hidden');
+        this.classList.remove('visible');
+    };
+
+    // 2. Formatting Logic
+    document.getElementById('fontSelect').onchange = (e) => textArea.style.fontFamily = e.target.value;
+    document.getElementById('spacingSelect').onchange = (e) => textArea.style.lineHeight = e.target.value;
+
+    // Tinted Background Logic
+    document.querySelectorAll('.tint-btn').forEach(btn => {
+        btn.onclick = () => {
+            textArea.style.backgroundColor = btn.dataset.color;
+            document.querySelectorAll('.tint-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        };
+    });
+
+    // 3. Voice Logic (Speech to Text)
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    let finalText = "";
+
+    micBtn.onclick = () => {
+        finalText = textArea.value;
+        recognition.start();
+        micBtn.classList.add('recording');
+        wave.classList.remove('hidden');
+        stopBtn.classList.remove('hidden');
+    };
+
+    stopBtn.onclick = () => {
+        recognition.stop();
+        micBtn.classList.remove('recording');
+        wave.classList.add('hidden');
+        stopBtn.classList.add('hidden');
+    };
+
+    recognition.onresult = (event) => {
+        let interimTranscript = '';
+        let finalTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) finalTranscript += event.results[i][0].transcript;
+            else interimTranscript += event.results[i][0].transcript;
+        }
+        textArea.value = finalText + finalTranscript + interimTranscript;
+    };
+
+    // 4. Clean and Structure (AI Logic)
+    document.getElementById('clean-structure-btn').onclick = async () => {
+        const text = textArea.value;
+        if (!text) return;
+        // Logic to send to Django backend for AI cleanup
+        const response = await fetch('/api/clean-text/', {
+            method: 'POST',
+            body: JSON.stringify({ text }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await response.json();
+        textArea.value = data.cleaned_text;
+    };
+
+    // 5. Export Menu
+    const exportBtn = document.getElementById('exportBtn');
+    const exportMenu = document.getElementById('exportMenu');
+    exportBtn.onclick = () => exportMenu.classList.toggle('hidden');
+
+    function exportDoc(type) {
+        const content = textArea.value;
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `LexiAssist_Work.${type}`;
+        a.click();
+    }
+</script>
+{% endblock %}

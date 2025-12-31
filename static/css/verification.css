@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.verify-wrapper {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Left Section: Pale Green Background */
+.verify-left {
+    flex: 1;
+    background-color: #E8F2EE;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.logo-container {
+    align-self: flex-start;
+}
+
+.logo {
+    width: 150px;
+}
+
+.illustration-container {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.illustration-container img {
+    max-width: 80%;
+}
+
+/* Right Section */
+.verify-right {
+    flex: 1;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+}
+
+.top-nav {
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 14px;
+}
+
+.sign-in-btn {
+    border: 1px solid #4A8C6F;
+    color: #333;
+    padding: 8px 25px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+/* Verification Card */
+.verify-card {
+    margin: auto;
+    text-align: center;
+    max-width: 450px;
+}
+
+.mail-icon img {
+    width: 80px;
+    margin-bottom: 20px;
+}
+
+.verify-card h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    color: #000;
+}
+
+.verify-card p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Rounded Green Button */
+.resend-btn {
+    background-color: #4A8C6F;
+    color: white;
+    border: none;
+    padding: 15px 60px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(74, 140, 111, 0.3);
+    transition: transform 0.2s;
+}
+
+.resend-btn:hover {
+    transform: translateY(-2px);
+}

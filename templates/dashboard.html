@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% csrf_token %}
+
+<div class="dashboard-grid">
+    <a href="{% url 'text2speech' %}" class="tool-card tts-bg">
+        <div class="card-text">
+            <h2>Text to speech Learning Hub</h2>
+            <p>Turn text into sound. Sit back, listen & watch the words light up as you learn.</p>
+        </div>
+        <div class="illustration-container">
+            <img src="{% static 'assets/texttospeech.png' %}" alt="TTS">
+        </div>
+    </a>
+
+    <a href="{% url 'reading_assistant' %}" class="tool-card reading-bg">
+        <div class="card-text">
+            <h2>Reading Assistant</h2>
+            <p>Study with confidence as words are simplified into bits.</p>
+        </div>
+        <div class="illustration-container">
+            <img src="{% static 'assets/reading_woman.png' %}" alt="Reading">
+        </div>
+    </a>
+
+    <div class="tool-card study-bg">
+        <div class="card-text">
+            <h2>StudyBuddy</h2>
+            <p>A smart assistant that helps you understand your notes better. Just upload!</p>
+        </div>
+        <div class="illustration-container">
+            <img src="{% static 'assets/studybuddy.png' %}" alt="Study">
+        </div>
+    </div>
+
+    <a href="{% url 'writing_assistant' %}" class="tool-card writing-bg">
+        <div class="card-text">
+            <h2>Speech to Text (Writing Assistant)</h2>
+            <p>Writing made easier! Just speak and we will do the writing.</p>
+        </div>
+        <div class="illustration-container">
+            <img src="{% static 'assets/speechtotext.png' %}" alt="Writing">
+        </div>
+    </a>
+</div>
+
+<div class="recent-activity">
+    <h3>Continue from where you left off</h3>
+
+    <div class="activity-section">
+    {% for activity in recent_activities %}
+    <div class="activity-wrapper" id="activity-{{ activity.id }}" style="display: flex; align-items: center; background: white; margin-bottom: 10px; border-radius: 12px; padding-right: 15px; border: 1px solid #eee;">
+        <a href="{{ activity.target_url }}" class="activity-row" style="text-decoration: none; color: inherit; flex: 1; display: flex; justify-content: space-between; align-items: center; padding: 15px;">
+            <div class="file-info">
+                <img src="{% static 'assets/pdf-icon.png' %}" alt="PDF" class="file-icon">
+                <span class="file-name">{{ activity.file_name }}</span>
+            </div>
+            <div class="activity-meta">
+                <span class="tool-tag">
+                    {% if activity.tool_used == 'Reading Assistant' %} 📖 Reading Assistant
+                    {% elif activity.tool_used == 'Quiz' %} 📝 Quiz
+                    {% else %} 🛠️ {{ activity.tool_used }}
+                    {% endif %}
+                </span>
+                <span class="time-stamp">{{ activity.timestamp|timesince }} ago</span>
+            </div>
+        </a>
+
+        <button onclick="deleteItem({{ activity.id }})" style="background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 20px; padding: 5px; line-height: 1;" title="Remove activity">
+            &times;
+        </button>
+    </div>
+    {% empty %}
+    <p class="no-data">No recent activity yet. Pick a tool to get started!</p>
+    {% endfor %}
+    </div>
+</div>
+
+<script>
+function deleteItem(activityId) {
+    if (confirm('Are you sure you want to remove this from your history?')) {
+        // This finds the CSRF token you added to the top of the file
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        // This sends the delete command to your Django view
+       fetch(`/api/classroom/activity/delete/${activityId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === 'success') {
+                // Your requested animation logic
+                const element = document.getElementById(`activity-${activityId}`);
+                element.style.transition = "all 0.3s ease";
+                element.style.opacity = "0";
+                element.style.transform = "translateX(20px)";
+                setTimeout(() => element.remove(), 300);
+            } else {
+                alert("Error: Could not delete item from database.");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Error: Server did not respond correctly.");
+        });
+    }
+}
+</script>
+{% endblock %}

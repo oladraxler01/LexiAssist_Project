@@ -1,0 +1,340 @@
+/* ===============================
+   ROOT + RESET
+================================ */
+:root {
+    --green: #2f7d4c;
+    --green-dark: #25643c;
+    --green-soft: #eaf4ee;
+    --gray-bg: #f6f7f8;
+    --text-dark: #1f2933;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --card-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #111;
+    font-family: 'Open Sans', sans-serif;
+    color: var(--text-dark);
+}
+
+/* ===============================
+   MAIN LAYOUT
+================================ */
+.workspace-layout {
+    display: flex;
+    height: calc(100vh - 64px);
+    padding: 20px;
+    gap: 20px;
+    background: #111;
+}
+
+/* ===============================
+   EDITOR CARD
+================================ */
+.editor-card {
+    flex: 1;
+    background: white;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    padding: 24px 28px;
+}
+
+/* ===============================
+   HEADER
+================================ */
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.confidence-indicator {
+    font-size: 13px;
+    color: #f97316;
+    font-weight: 500;
+}
+
+/* ===============================
+   RECORDING CONTROLS
+================================ */
+.recording-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#mic-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--green);
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+#mic-btn.recording {
+    background: var(--green-soft);
+}
+
+.audio-animation {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 20px;
+}
+
+.audio-animation span {
+    width: 3px;
+    height: 100%;
+    background: var(--green);
+    animation: wave 1s infinite ease-in-out;
+}
+
+.audio-animation span:nth-child(2) { animation-delay: .1s; }
+.audio-animation span:nth-child(3) { animation-delay: .2s; }
+.audio-animation span:nth-child(4) { animation-delay: .3s; }
+.audio-animation span:nth-child(5) { animation-delay: .4s; }
+
+@keyframes wave {
+    0%, 100% { height: 20%; }
+    50% { height: 100%; }
+}
+
+.stop-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.action-btn-green {
+    background: var(--green);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.action-btn-green:hover {
+    background: var(--green-dark);
+}
+
+/* ===============================
+   TEXTAREA
+================================ */
+#writing-area {
+    flex: 1;
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 20px;
+    border-radius: 14px;
+    background: #fafafa;
+    font-family: 'Lexend', sans-serif;
+}
+
+/* ===============================
+   FOOTER
+================================ */
+.editor-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
+.copy-btn {
+    background: var(--green);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* ===============================
+   TOOLS PANEL
+================================ */
+.tools-panel {
+    width: 320px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+}
+
+.tools-panel.hidden {
+    transform: translateX(110%);
+}
+
+/* ===============================
+   TOOLS HEADER
+================================ */
+.tools-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.tools-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.tools-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.toggle-sidebar-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* ===============================
+   TOOL ITEMS
+================================ */
+.tool-item {
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.dropdown-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.dropdown-wrapper label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.dropdown-wrapper select {
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    font-size: 13px;
+}
+
+/* ===============================
+   TINT OPTIONS
+================================ */
+.tint-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tint-options {
+    display: flex;
+    gap: 10px;
+}
+
+.tint-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    background: white;
+}
+
+.tint-btn.active {
+    border-color: var(--green);
+}
+
+/* ===============================
+   FOOTER IMAGE + EXPORT
+================================ */
+.tools-footer-image {
+    margin-top: auto;
+    text-align: center;
+}
+
+.tools-footer-image img {
+    max-width: 100%;
+    margin-bottom: 12px;
+}
+
+.export-btn {
+    background: var(--green);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.export-menu {
+    margin-top: 8px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.export-menu button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: white;
+    cursor: pointer;
+}
+
+.export-menu button:hover {
+    background: var(--gray-bg);
+}
+
+/* ===============================
+   FLOATING SHOW BUTTON
+================================ */
+.floating-show-btn {
+    position: fixed;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--green);
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: none;
+}
+
+.floating-show-btn.visible {
+    display: block;
+}
+
+/* ===============================
+   UTILITIES
+================================ */
+.hidden {
+    display: none !important;
+}

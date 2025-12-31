@@ -1,0 +1,226 @@
+/* =========================
+   GLOBAL & LAYOUT
+========================= */
+* { box-sizing: border-box; font-family: 'Lexend', sans-serif; }
+body { margin: 0; background-color: #f3f5f4; display: flex; }
+
+.dashboard-wrapper { display: flex; width: 100%; min-height: 100vh; }
+
+/* =========================
+   SIDEBAR (The Green Nav)
+========================= */
+#side-bar {
+    width: 260px;
+    background-color: #3e8e63;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-links { list-style: none; padding: 0; margin-top: 30px; }
+.nav-item {
+    display: block;
+    padding: 12px 15px;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    transition: 0.3s;
+}
+.nav-item.active, .nav-item:hover {
+    background-color: rgba(255,255,255,0.2);
+    color: white;
+}
+.nav-label { font-size: 12px; color: rgba(255,255,255,0.5); margin: 20px 0 10px 15px; }
+
+/* =========================
+   TOP NAV (Hello Victoria + Icons)
+========================= */
+#main-content { flex: 1; padding: 30px; }
+
+#top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.header-icons-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-pic-placeholder {
+    width: 40px;
+    height: 40px;
+    background: #ddd;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* =========================
+   TOOL CARDS GRID
+========================= */
+.dashboard-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 30px !important;
+    margin-bottom: 50px !important;
+    width: 100% !important;
+}
+
+.tool-card {
+    min-height: 280px !important; /* This is significantly larger */
+    padding: 40px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    border-radius: 25px !important;
+}
+
+.tool-card:hover { transform: translateY(-5px); }
+
+.tts-bg { background-color: #e8f0fe; }
+.reading-bg { background-color: #e6f4ea; }
+.study-bg { background-color: #fef7e0; }
+.writing-bg { background-color: #fce8e6; }
+
+
+/* Make the text inside grow with the card */
+.card-text h2 {
+    font-size: 26px !important;
+    margin-bottom: 15px !important;
+}
+.card-text p {
+    font-size: 16px !important;
+    color: #555 !important;
+}
+
+.illustration-container img {
+    width: 130px !important; /* Larger illustrations */
+}
+/* =========================
+   RECENT ACTIVITY
+========================= */
+/* Ensure the activity section expands to take up full width */
+
+.recent-activity {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px; /* Prevents the page from collapsing too small */
+}
+
+.activity-wrapper {
+    width: 100%;
+    background: white;
+    margin-bottom: 12px;
+    border-radius: 15px;
+    border: 1px solid #eee;
+    display: flex; /* This aligns the link and the delete button */
+    align-items: center;
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Required for the delete animation */
+}
+
+.activity-row {
+    flex: 1; /* Makes the link take up all space except the delete button */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: inherit;
+}
+/* --- SIDEBAR BASE STYLING --- */
+
+
+.nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-label {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    font-weight: bold;
+    margin: 20px 25px 10px;
+    letter-spacing: 1px;
+}
+
+/* --- NAV ITEM (Inactive) --- */
+.nav-item {
+    margin: 4px 15px; /* Spacing between items */
+    border-radius: 25px; /* Rounded pill shape */
+    transition: all 0.3s ease;
+}
+
+.nav-item a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #ffffff; /* White text */
+    font-weight: 500;
+    gap: 12px;
+}
+
+.nav-item .icon {
+    font-size: 18px;
+    display: inline-block;
+    width: 25px;
+}
+
+/* --- THE WHITE PILL (Active State) --- */
+/* This triggers when Django detects the current page */
+.nav-item.active {
+    background-color: #ffffff !important; /* Forces the white background */
+}
+
+.nav-item.active a {
+    color: #438e64 !important; /* Changes text to green */
+}
+
+.nav-item.active .icon {
+    color: #438e64 !important; /* Changes icon to green */
+}
+
+/* --- STUDYBUDDY & SUB-MENU --- */
+#studyBuddyBtn .arrow {
+    transition: transform 0.3s ease;
+}
+
+.sub-menu {
+    padding-left: 55px;
+    margin-bottom: 10px;
+}
+
+.sub-item {
+    display: block;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    padding: 8px 0;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.sub-item:hover {
+    color: #ffffff;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+

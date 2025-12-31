@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/reading-reader.css' %}" />
+
+<div class="workspace-main-container">
+
+    <div class="reading-center-column">
+        <div class="card-top-toolbar">
+            <div class="file-info-pill">
+                <img src="{% static 'assets/pdf_icon.png' %}" alt="PDF">
+                <span>{{ filename|default:"History of Hitler.pdf" }}</span>
+            </div>
+
+            <div class="mode-toggle-group">
+                <button class="mode-pill-btn" id="orig-btn">Original text</button>
+                <button class="mode-pill-btn active" id="simple-btn">Simplified Text ▾</button>
+            </div>
+        </div>
+
+        <div class="reading-white-box">
+            <h2 class="doc-main-title">Early Life and Artistic Failure</h2>
+            <div id="text-body-area" class="readable-text">
+                {{ simplified_text|linebreaks }}
+            </div>
+        </div>
+    </div>
+
+    <aside class="wall-tools-panel collapsed" id="toolsPanel">
+        <button class="wall-toggle-arrow" id="toggleBtn">❮</button>
+
+        <div class="panel-inner-content">
+            <div class="panel-header">
+                <h3>Tools</h3>
+                <span class="bookmark">🔖</span>
+            </div>
+
+            <div class="panel-settings">
+                <div class="setting-box">
+                    <span>Font Choice</span>
+                    <span class="v-arrow">▼</span>
+                </div>
+                <div class="setting-box">
+                    <span>Spacing</span>
+                    <span class="v-arrow">▼</span>
+                </div>
+                <div class="setting-flex">
+                    <span>Dim surrounding text</span>
+                    <label class="hifi-switch">
+                        <input type="checkbox">
+                        <span class="hifi-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <button class="summarize-btn-hifi">
+                <span class="burger">≡</span> Summarize text
+            </button>
+
+            <div class="vocab-footer-list">
+                <h4>Vocab list</h4>
+                <ul class="vocab-items">
+                    <li>Scrutinized</li>
+                    <li>Antisemitic</li>
+                    <li>Nationalist</li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<script>
+    // REINSTATED: Toggle Sidebar Slide
+    const panel = document.getElementById('toolsPanel');
+    const btn = document.getElementById('toggleBtn');
+    btn.addEventListener('click', () => {
+        panel.classList.toggle('collapsed');
+        // Toggle arrow direction based on state
+        btn.innerText = panel.classList.contains('collapsed') ? '❮' : '❯';
+    });
+
+    // Content Swapping Logic
+    const textDiv = document.getElementById('text-body-area');
+    const originalText = `{{ original_text|escapejs }}`;
+    const simplifiedText = `{{ simplified_text|escapejs }}`;
+
+    document.getElementById('orig-btn').addEventListener('click', function() {
+        textDiv.innerText = originalText;
+        this.classList.add('active');
+        document.getElementById('simple-btn').classList.remove('active');
+    });
+
+    document.getElementById('simple-btn').addEventListener('click', function() {
+        textDiv.innerText = simplifiedText;
+        this.classList.add('active');
+        document.getElementById('orig-btn').classList.remove('active');
+    });
+</script>
+{% endblock %}

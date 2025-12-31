@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/tts-assistant.css' %}?v=1.2">
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/tts-assistant.css' %}">
+
+<div class="tts-container">
+    <div class="page-title-row">
+        <h1>Text to Speech Learning Hub</h1>
+        <div class="tool-icon-circle-small">🔧</div>
+    </div>
+
+    <div class="tts-header-card">
+        <div class="card-inner">
+            <div class="header-illustration">
+                <img src="{% static 'assets/texttospeech.png' %}" alt="TTS Learning Hub">
+            </div>
+            <div class="header-text">
+                <h2>Text to speech Learning Hub</h2>
+                <p>Turn text into sound. Sit back, listen & watch the words light up as you learn.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="upload-area">
+        <form method="POST" enctype="multipart/form-data" id="tts-form">
+            {% csrf_token %}
+
+            <div class="upload-box" id="drop-zone" onclick="document.getElementById('file-upload').click()">
+                <input type="file" name="document" id="file-upload" hidden onchange="handleFileSelect(this)">
+                <div class="upload-icon-circle-main">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <p class="upload-main"><span>Click to upload</span> or drag and drop</p>
+                <p class="upload-sub">PDF, DOC, TXT, image (Size maximum 50MB)</p>
+            </div>
+
+            <div class="upload-feedback" id="upload-feedback" style="display: none;">
+                <p class="status-label">Document uploaded</p>
+
+                <div class="feedback-container">
+                    <div class="file-card-pill">
+                        <div class="pill-left">
+                            <img src="{% static 'assets/pdf-icon.png' %}" alt="File" class="pill-icon">
+                            <div class="pill-details">
+                                <span class="file-name" id="file-name-display">Uploaded Document</span>
+                                <span class="file-meta-sub" id="file-size-display">0.00 MB</span>
+                            </div>
+                        </div>
+                        <button class="remove-file-btn" type="button" onclick="resetUpload()">×</button>
+                    </div>
+
+                    <button class="submit-btn-green" type="submit">Submit</button>
+                </div>
+
+                <div class="processing-footer">
+                    <span class="globe-icon">🌐</span> Document ready for AI processing
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function handleFileSelect(input) {
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const extension = file.name.split('.').pop().toUpperCase();
+
+        // Update display text
+        document.getElementById('file-name-display').innerText = file.name;
+        document.getElementById('file-size-display').innerText = extension + " • " + (file.size / (1024 * 1024)).toFixed(2) + " MB";
+
+        // Show the feedback card
+        document.getElementById('upload-feedback').style.display = 'block';
+
+        // Optional: Smooth scroll to the button
+        document.getElementById('upload-feedback').scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function resetUpload() {
+    // Clear the input and hide the area
+    document.getElementById('file-upload').value = "";
+    document.getElementById('upload-feedback').style.display = 'none';
+}
+</script>
+{% endblock %}

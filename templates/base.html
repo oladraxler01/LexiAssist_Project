@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}LexiAssist{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'assets/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}?v=1.1">
+    <link rel="stylesheet" href="{% static 'css/themes.css' %}">
+    {% block extra_css %}{% endblock %}
+
+</head>
+<body>
+
+    <div class="dashboard-wrapper">
+        <nav id="side-bar">
+            <div id="logo-section">
+                <img src="{% static 'assets/lexiAssist.png' %}" alt="LexiAssist Logo" style="width: 100px; margin-right: 30px;">
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                    <a href="{% url 'dashboard' %}">
+                        <span class="icon">⊞</span> Dashboard
+                    </a>
+                </li>
+
+                <p class="menu-label">TOOLS</p>
+
+                <li class="nav-item {% if request.resolver_match.url_name == 'text2speech' %}active{% endif %}">
+                    <a href="{% url 'text2speech' %}">
+                        <span class="icon">🎙</span> Text to speech
+                    </a>
+                </li>
+
+                <li class="nav-item {% if request.resolver_match.url_name == 'reading_assistant' %}active{% endif %}">
+                    <a href="{% url 'reading_assistant' %}">
+                        <span class="icon">📖</span> Reading Assistant
+                    </a>
+                </li>
+
+                <li class="nav-item {% if request.resolver_match.url_name == 'writing_assistant' %}active{% endif %}">
+                    <a href="{% url 'writing_assistant' %}">
+                        <span class="icon">✍</span> Writing Assistant
+                    </a>
+                </li>
+
+                <li class="nav-item" id="studyBuddyBtn" style="cursor: pointer;">
+                    <div style="display: flex; align-items: center; padding: 12px 20px; color: white; gap: 12px;">
+                        <span class="icon">✨</span>
+                        <span>StudyBuddy</span>
+                        <span class="arrow" style="margin-left: auto; font-size: 10px;">▼</span>
+                    </div>
+                </li>
+
+                <div class="sub-menu hidden" id="studyBuddyMenu">
+                    <a href="{% url 'chat_assistant' %}" class="sub-item">Chat Assistant</a>
+                    <a href="{% url 'flashcards' %}" class="sub-item">Flashcards</a>
+                    <a href="{% url 'quizzes' %}" class="sub-item">Quizzes</a>
+                </div>
+            </ul>
+
+            <div class="logout-container" style="margin-top: auto;">
+                <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                    {% csrf_token %}
+                </form>
+                <li class="nav-item logout-item">
+                    <a href="javascript:void(0)" onclick="confirmLogout(event)">
+                        <img src="{% static 'assets/logout.png' %}" alt="Logout" width="20">
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </div>
+        </nav>
+
+        <main id="main-content">
+            <header id="top-nav">
+                <div class="user-info">
+                    <h1>Hello, {{ user.full_name|default:"Victoria" }}!</h1>
+                    <p>Pick a tool to get started with</p>
+                </div>
+
+                <div class="header-icons-container">
+                    <span class="icon-item">⚙️</span>
+                    <button id="theme-toggle" class="icon-btn theme-icon">🌙</button>
+                    <div class="profile-wrapper">
+                        <div class="profile-pic-placeholder">👤</div>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                </div>
+            </header>
+
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+
+    <script>
+        // Theme Logic
+        const themeBtn = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        htmlElement.setAttribute('data-theme', savedTheme);
+
+        if (themeBtn) {
+            themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            themeBtn.addEventListener('click', () => {
+                const currentTheme = htmlElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                htmlElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                themeBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            });
+        }
+
+        // StudyBuddy Dropdown Logic
+        const studyBuddyBtn = document.getElementById('studyBuddyBtn');
+        const studyBuddyMenu = document.getElementById('studyBuddyMenu');
+        if (studyBuddyBtn) {
+            studyBuddyBtn.addEventListener('click', () => {
+                studyBuddyMenu.classList.toggle('hidden');
+                const arrow = studyBuddyBtn.querySelector('.arrow');
+                arrow.textContent = studyBuddyMenu.classList.contains('hidden') ? '▼' : '▲';
+            });
+        }
+
+        // Logout Confirmation
+        function confirmLogout(event) {
+            event.preventDefault();
+            if (confirm("Are you sure you want to logout?")) {
+                document.getElementById('logout-form').submit();
+            }
+        }
+
+        // Keep parent menu open if a sub-item is active
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            document.querySelectorAll('.sub-item').forEach(item => {
+                if (currentPath.includes(item.getAttribute('href'))) {
+                    studyBuddyMenu.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

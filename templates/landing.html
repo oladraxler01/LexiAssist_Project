@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LexiAssist | Empowering Dyslexic Learners</title>
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}"> </head>
+<body>
+    <nav>
+        <div class="logo">LexiAssist</div>
+        <div class="nav-links">
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}" class="btn-primary">Get Started</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <h1>Empowering Every Learner</h1>
+            <p>Our AI-driven tools help you read, write, and study with confidence.</p>
+            <a href="{% url 'signup' %}" class="cta-button">Join LexiAssist</a>
+        </section>
+    </main>
+</body>
+</html>

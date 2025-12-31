@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/tts-reader.css' %}">
+
+<div class="workspace">
+
+    <section class="reader-card">
+        <div class="reader-toolbar">
+            <span class="file-pill">
+                📄 {{ filename }}
+            </span>
+
+            <div class="audio-controls">
+                <button type="button" title="Previous">⏮</button>
+                <button type="button" id="play-pause-btn" title="Play / Pause">▶</button>
+                <button type="button" title="Next">⏭</button>
+            </div>
+
+            <div class="voice-dropdown" id="voice-menu" style="display: none;">
+                <span class="active">Alex</span>
+                <span>Nadia</span>
+                <span>Jake</span>
+            </div>
+
+            <button
+                class="close-btn"
+                type="button"
+                onclick="window.location.href='{% url 'text2speech' %}'"
+            >
+                ×
+            </button>
+        </div>
+
+        <div class="reader-text" id="text-to-read">
+            {% if sentences %}
+                {% for sentence in sentences %}
+                    <span class="sentence" id="s-{{ forloop.counter0 }}">{{ sentence }}</span>
+                {% endfor %}
+            {% else %}
+                <p>No text content available.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <aside class="tools-panel">
+        <div class="tools-header">
+            <h3>Tools</h3>
+            <span class="tools-icon">🔖 ›</span>
+        </div>
+
+        <div class="tool-item" onclick="toggleVoiceMenu()">
+            <span>Voice Option</span>
+            <span>▾</span>
+        </div>
+
+        <div class="tool-item">
+            <span>Speed</span>
+            <input type="range" id="speed-range" min="0.5" max="2" step="0.1" value="1.0" style="width: 80px;">
+        </div>
+
+        <div class="tool-item" onclick="toggleReadingMenu()" style="position: relative;">
+            <span>Reading option</span>
+            <span>▾</span>
+            <div class="reading-dropdown" id="reading-menu" style="display: none; top: 40px; right: 0;">
+                <div class="reading-opt active-opt" id="opt-word" onclick="setReadingMode('word')">Word by word</div>
+                <div class="reading-opt" id="opt-line" onclick="setReadingMode('line')">Line by line</div>
+            </div>
+        </div>
+
+        <div class="tool-item">
+            <span>Dim surrounding text</span>
+            <input type="checkbox" id="dim-switch" class="apple-switch" onchange="toggleDimming()">
+        </div>
+
+        <div class="tool-item disabled">
+            <span>Tinted backgrounds</span>
+            <span>⊘</span>
+        </div>
+
+        <div class="tool-item">
+            <span>Highlight color</span>
+            <span class="color-dot"></span>
+        </div>
+
+        <button class="export-btn" type="button">
+            🎧 Export Audio (MP3)
+        </button>
+    </aside>
+</div>
+
+<script>
+    // 1. Core State
+    const synth = window.speechSynthesis;
+    let utterance = new SpeechSynthesisUtterance();
+    let selectedVoiceName = "Alex";
+    let sentenceIndex = 0;
+    let readingMode = 'line';
+
+    const playBtn = document.getElementById('play-pause-btn');
+    const sentences = document.querySelectorAll('.sentence');
+    const speedInput = document.getElementById('speed-range');
+
+    // 2. Menu Toggles
+    function toggleVoiceMenu() {
+        const menu = document.getElementById("voice-menu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    function toggleReadingMenu() {
+        const menu = document.getElementById("reading-menu");
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    function toggleDimming() {
+        const textContainer = document.getElementById('text-to-read');
+        textContainer.classList.toggle('dimmed', document.getElementById('dim-switch').checked);
+    }
+
+    function setReadingMode(mode) {
+        readingMode = mode;
+        document.querySelectorAll('.reading-opt').forEach(opt => opt.classList.remove('active-opt'));
+        document.getElementById(`opt-${mode}`).classList.add('active-opt');
+        toggleReadingMenu();
+    }
+
+    // 3. Voice Selection
+    function getSelectedVoice() {
+        const voices = synth.getVoices();
+        const voiceMap = {
+            'Alex': voices.find(v => v.lang.includes('en-US') && v.name.includes('Male')) || voices[0],
+            'Nadia': voices.find(v => v.lang.includes('en-GB')) || voices[0],
+            'Jake': voices.find(v => v.name.includes('Natural')) || voices[0]
+        };
+        return voiceMap[selectedVoiceName];
+    }
+
+    document.querySelectorAll('.voice-dropdown span').forEach(span => {
+        span.addEventListener('click', function() {
+            document.querySelectorAll('.voice-dropdown span').forEach(s => s.classList.remove('active'));
+            this.classList.add('active');
+            selectedVoiceName = this.innerText;
+            synth.cancel(); // Reset playback for new voice
+            playBtn.innerText = '▶';
+            toggleVoiceMenu();
+        });
+    });
+
+    // 4. Playback Logic
+    playBtn.addEventListener('click', () => {
+        if (synth.speaking && !synth.paused) {
+            synth.pause();
+            playBtn.innerText = '▶';
+        } else if (synth.paused) {
+            synth.resume();
+            playBtn.innerText = '⏸';
+        } else {
+            startReading(sentenceIndex);
+        }
+    });
+
+    function startReading(index) {
+        if (index >= sentences.length) {
+            sentenceIndex = 0;
+            playBtn.innerText = '▶';
+            sentences.forEach(s => s.classList.remove('active-highlight'));
+            return;
+        }
+
+        sentenceIndex = index;
+        const currentSpan = sentences[index];
+
+        // Update Highlighting
+        sentences.forEach(s => s.classList.remove('active-highlight'));
+        currentSpan.classList.add('active-highlight');
+        currentSpan.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        utterance = new SpeechSynthesisUtterance(currentSpan.innerText);
+        utterance.voice = getSelectedVoice();
+        utterance.rate = parseFloat(speedInput.value) || 1.0;
+
+        // Auto-advance
+        utterance.onend = () => {
+            if (!synth.paused) {
+                startReading(sentenceIndex + 1);
+            }
+        };
+
+        synth.speak(utterance);
+        playBtn.innerText = '⏸';
+    }
+
+    // Clean up
+    window.onbeforeunload = () => synth.cancel();
+</script>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invalid Link - LexiAssist</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F8F9FA;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .error-card {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+        }
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background-color: #FEE2E2;
+            color: #EF4444;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px auto;
+            font-size: 40px;
+            font-weight: bold;
+        }
+        h1 {
+            color: #111827;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        p {
+            color: #6B7280;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .btn-retry {
+            display: inline-block;
+            background-color: #4A8C6F; /* Your signature green */
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .btn-retry:hover {
+            background-color: #3d745c;
+        }
+        .support-text {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #9CA3AF;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-card">
+        <div class="icon-circle">!</div>
+        <h1>Invalid Activation Link</h1>
+        <p>
+            Sorry, this activation link is either invalid, has expired, or has already been used to verify an account.
+        </p>
+        <a href="{% url 'signup' %}" class="btn-retry">Return to Signup</a>
+        <div class="support-text">
+            Need help? Contact support@lexiassist.com
+        </div>
+    </div>
+</body>
+</html>

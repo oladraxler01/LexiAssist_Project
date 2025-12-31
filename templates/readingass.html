@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/reading-assistant.css' %}" />
+
+<div class="reading-container">
+    <section class="banner-card">
+        <div class="banner-content">
+            <div class="banner-illustration">
+                <img src="{% static 'assets/readingAss.png' %}" alt="Reading">
+            </div>
+            <div class="banner-text">
+                <h2>Reading Assistant</h2>
+                <p>Study with confidence as<br>words are simplified into bits</p>
+            </div>
+        </div>
+    </section>
+
+    <form method="POST" enctype="multipart/form-data" action="{% url 'reading_assistant' %}" id="upload-form">
+        {% csrf_token %}
+        <section class="upload-section">
+            <div class="upload-zone" id="drop-zone">
+                <div class="cloud-circle">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <p class="upload-prompt"><span>Click to upload</span> or drag and drop</p>
+                <p class="upload-details">PDF, DOC, TXT, image (Size maximum 50MB)</p>
+                <input type="file" name="document" id="file-input" hidden>
+            </div>
+
+            <div class="document-list">
+                <p class="list-label">Document uploaded</p>
+                <div class="file-pill">
+                    <div class="pill-left">
+                        <img src="{% static 'assets/pdf_icon.png' %}" alt="PDF" class="pill-icon">
+                        <div class="pill-text">
+                            <span class="file-title" id="file-name">History of Hitler</span>
+                            <span class="file-format">pdf</span>
+                        </div>
+                    </div>
+                    <button type="button" class="pill-close" id="clear-file">×</button>
+                </div>
+                <button type="submit" class="main-submit-btn">Submit</button>
+            </div>
+        </section>
+    </form>
+</div>
+
+<script>
+    const fileInput = document.getElementById('file-input');
+    const dropZone = document.getElementById('drop-zone');
+    const displayTitle = document.getElementById('file-name');
+
+    // Click on the zone to open file picker
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    // Update the pill text when a file is picked
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            displayTitle.textContent = e.target.files[0].name.split('.')[0];
+        }
+    });
+</script>
+{% endblock %}

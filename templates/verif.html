@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification - LexiAssist</title>
+    <link rel="stylesheet" href="{% static 'css/verification.css' %}">
+</head>
+<body>
+    <div class="verify-wrapper">
+        <div class="verify-left">
+            <div class="logo-container">
+                <img src="{% static 'assets/lexiAssist.png' %}" alt="LexiAssist" class="logo">
+            </div>
+            <div class="illustration-container">
+                <img src="{% static 'assets/verif.png' %}" alt="Verification Illustration">
+            </div>
+        </div>
+
+        <div class="verify-right">
+            <div class="top-nav">
+                <span>Already have an account?</span>
+                <a href="{% url 'login' %}" class="sign-in-btn">SIGN IN</a>
+            </div>
+
+            <div class="verify-card">
+                <div class="mail-icon">
+                    <img src="{% static 'assets/email.png' %}" alt="Mail">
+                </div>
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <p class="alert-success" style="color: #4A8C6F; font-weight: bold; font-size: 14px; margin-bottom: 10px;">
+                    {{ message }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <h1>Email Verification</h1>
+                <p>A verification link has been sent to your email address. Please check your inbox and follow the instructions to complete your verification.</p>
+
+                <a href="{% url 'resend_verification' %}" class="btn-resend">Resend</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

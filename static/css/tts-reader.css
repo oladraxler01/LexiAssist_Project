@@ -1,0 +1,305 @@
+/* =========================
+   GLOBAL RESET
+========================= */
+* {
+    box-sizing: border-box;
+    font-family: "Lexend", "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f3f5f4;
+}
+
+/* =========================
+   WORKSPACE LAYOUT
+========================= */
+.workspace {
+    display: flex;
+    gap: 24px;
+    padding: 24px;
+}
+
+/* =========================
+   READER CARD
+========================= */
+.reader-card {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+    padding: 16px 18px 18px;
+    position: relative;
+}
+
+/* =========================
+   TOOLBAR
+========================= */
+.reader-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.file-pill {
+    background: #eef3f0;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Audio controls */
+.audio-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.audio-controls button {
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* Close button */
+.close-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: none;
+    background: transparent;
+    font-size: 22px;
+    cursor: pointer;
+    color: #666;
+}
+
+/* =========================
+   VOICE DROPDOWN
+========================= */
+.voice-dropdown {
+    position: absolute;
+    top: 38px;
+    right: 0;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+    overflow: hidden;
+    z-index: 10;
+    min-width: 160px;
+}
+
+.voice-dropdown span {
+    display: block;
+    padding: 10px 16px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.voice-dropdown span:hover {
+    background: #f3f6f4;
+}
+
+.voice-dropdown span.active {
+    background: #2f7a4a;
+    color: #ffffff;
+}
+
+/* =========================
+   READER TEXT
+========================= */
+.reader-text {
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.reader-text h2 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.reader-text p {
+    font-size: 14px;
+    line-height: 1.75;
+    margin-bottom: 14px;
+    color: #222;
+}
+
+/* Highlighted text */
+.highlight {
+    background: rgba(181, 143, 255, 0.35);
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+/* =========================
+   TOOLS PANEL
+========================= */
+.tools-panel {
+    width: 300px;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Tools header */
+.tools-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.tools-header h3 {
+    margin: 0;
+}
+
+.tools-icon {
+    font-size: 14px;
+    color: #777;
+}
+
+/* Tool items */
+.tool-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f2f4f3;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.tool-item:hover {
+    background: #ebefed;
+}
+
+.tool-item.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* =========================
+   APPLE-STYLE SWITCH
+========================= */
+.apple-switch {
+    appearance: none;
+    width: 42px;
+    height: 22px;
+    background: #ccc;
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+}
+
+.apple-switch:checked {
+    background: #2f7a4a;
+}
+
+.apple-switch::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: 0.25s;
+}
+
+.apple-switch:checked::before {
+    left: 22px;
+}
+
+/* =========================
+   COLOR DOT
+========================= */
+.color-dot {
+    width: 16px;
+    height: 16px;
+    background: #cfa9ff;
+    border-radius: 50%;
+}
+
+/* =========================
+   EXPORT BUTTON
+========================= */
+.export-btn {
+    width: 100%;
+    margin-top: 18px;
+    background: #2f7a4a;
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    border-radius: 22px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.export-btn:hover {
+    background: #276b41;
+}
+
+/* Highlights the current sentence being read */
+.sentence.active-highlight {
+    background-color: #E0CEFF; /* Your signature purple */
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.sentence {
+    cursor: pointer;
+    line-height: 1.8;
+}
+
+
+.reading-dropdown {
+    position: absolute;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 10px;
+    z-index: 100;
+    width: 150px;
+    text-align: center;
+}
+
+.reading-opt {
+    padding: 8px 12px;
+    margin: 5px 0;
+    cursor: pointer;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #333;
+    transition: 0.3s;
+}
+
+.reading-opt.active-opt {
+    background-color: #3e8e63; /* The green from your image */
+    color: white;
+}
+
+
+
+
+/* When the parent container has the 'dimmed' class... */
+.reader-text.dimmed .sentence {
+    opacity: 0.3; /* Dim all sentences */
+    transition: opacity 0.3s ease;
+}
+
+/* ...except for the one currently being read */
+.reader-text.dimmed .sentence.active-highlight {
+    opacity: 1; /* Keep the active one bright */
+    z-index: 10;
+}
