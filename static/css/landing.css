@@ -1,81 +1,338 @@
-/* static/css/landing.css */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    line-height: 1.6;
-    color: #333;
-    overflow-x: hidden;
+:root {
+    --green: #2f7d4a;
+    --dark: #0f1e1a;
+    --light: #f8f9f8;
+    --gray: #6b7280;
 }
 
-/* NAVIGATION */
-nav {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #fff;
+    color: #111;
+}
+
+/* ================= NAV ================= */
+.navbar {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    background: white;
+    padding: 12px 20px;
+    border-radius: 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 80px;
-    background: white;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    z-index: 10;
 }
 
 .logo {
-    font-size: 24px;
-    font-weight: 700;
-    color: #4A8C6F;
+    width: 28px;
+    margin-right: 8px;
 }
 
-.nav-links a {
-    text-decoration: none;
-    margin-left: 30px;
+.brand {
     font-weight: 600;
-    color: #444;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+.nav-right {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.nav-link {
+    color: #111;
+    text-decoration: none;
+    font-size: 14px;
 }
 
 .btn-primary {
-    background: #4A8C6F;
-    color: white !important;
-    padding: 10px 25px;
-    border-radius: 10px;
-    transition: 0.3s;
+    background: var(--green);
+    color: white;
+    padding: 10px 18px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 14px;
 }
 
-/* HERO SECTION */
+.btn-primary, .btn-secondary {
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover, .btn-secondary:hover {
+    transform: scale(1.05); /* Grows slightly */
+    filter: contrast(1.2); /* Makes the color pop */
+}
+
+/* ================= HERO ================= */
 .hero {
-    height: 80vh;
+    height: 90vh;
+    /* This points to your woman-on-sofa image */
+    background: url("../assets/reading_book.jpg") center/cover no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+}
+
+.hero-content {
+    position: relative;
+    max-width: 600px;
+    margin-left: 8%;
+    color: white;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.hero-content p {
+    margin: 20px 0;
+    font-size: 16px;
+    max-width: 480px;
+}
+
+/* Base state for Image Sections */
+.hero, .research {
+    transition: background-size 0.5s ease-in-out;
+    background-size: 100%; /* Start at normal size */
+}
+
+/* Hover state: Slow zoom effect */
+.hero:hover, .research:hover {
+    background-size: 105%; /* Zooms in 5% */
+}
+/* ================= PROBLEM ================= */
+.problem {
+    padding: 100px 8%;
+    background-color: #fff;
+}
+
+.problem-grid {
+    display: grid;
+    /* Create 3 equal columns */
+    grid-template-columns: repeat(3, 1fr);
+    /* Define the layout areas */
+    grid-template-areas:
+        "card1 card2 text"
+        "card3 .     text";
+    gap: 30px;
+    align-items: start;
+}
+
+.problem-card {
+    background: #000;
+    color: white;
+    padding: 40px 30px;
+    border-radius: 12px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+/* Assigning each element to its area */
+.problem-card:nth-child(1) { grid-area: card1; }
+.problem-card:nth-child(2) { grid-area: card2; }
+.problem-card:nth-child(3) { grid-area: card3; }
+.problem-text {
+    grid-area: text;
+    padding-left: 40px;
+    align-self: center; /* Centers text vertically against the cards */
+}
+
+.problem-card i, .problem-card .icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.problem-text h2 {
+    font-size: 42px; /* Matching the large bold heading in image */
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+.problem-text p {
+    font-size: 18px;
+    color: #444;
+    line-height: 1.6;
+}
+
+/* Base state for all cards */
+.problem-card, .solution-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+}
+
+/* Hover state: Lifts the card and adds a glow */
+.problem-card:hover, .solution-card:hover {
+    transform: translateY(-10px); /* Moves card up */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2); /* Deepens shadow */
+    filter: brightness(1.1); /* Slightly brightens the color */
+}
+
+/* ================= SOLUTION ================= */
+.solution {
+    padding: 80px 8%;
+    text-align: center;
+}
+
+.section-title {
+    color: var(--green);
+    letter-spacing: 6px;
+    font-size: 16px;
+    margin-bottom: 60px;
+}
+
+.solution-grid {
+    display: grid;
+    /* Create a 3x3 grid to allow for diamond placement */
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, auto);
+    gap: 20px;
+    justify-items: center;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.solution-card {
+    width: 240px; /* Slightly wider to match your image */
+    height: 180px;
+    border-radius: 12px;
+    color: white;
+    padding: 25px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
-    padding: 0 20px;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* Adds the soft shadow from your image */
 }
 
-.hero h1 {
-    font-size: 64px;
-    color: #1a1a1a;
-    margin-bottom: 20px;
-    max-width: 800px;
+/* Position the cards in the diamond shape */
+.solution-card.red {
+    grid-column: 2; /* Middle column */
+    grid-row: 1;    /* Top row */
 }
 
-.hero p {
-    font-size: 20px;
-    color: #666;
-    margin-bottom: 40px;
+.solution-card.blue {
+    grid-column: 1; /* Left column */
+    grid-row: 2;    /* Middle row */
+}
+
+.solution-card.orange {
+    grid-column: 3; /* Right column */
+    grid-row: 2;    /* Middle row */
+}
+
+.solution-card.green {
+    grid-column: 2; /* Middle column */
+    grid-row: 3;    /* Bottom row */
+}
+
+/* Color codes from your specific image */
+.red { background: #BF4F36; }
+.blue { background: #3B82F6; }
+.orange { background: #E68A3E; }
+.green { background: #3E7D51; }
+
+/* ================= HOW IT WORKS ================= */
+.how-it-works {
+    padding: 100px 8%;
+    position: relative;
+    background: #fff;
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.step-number {
+    font-size: 40px;
+    color: #cbd5cb;
+    font-weight: 700;
+}
+
+.wave {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    height: 120px;
+}
+
+.wave path {
+    fill: none;
+    stroke: var(--green);
+    stroke-width: 3;
+}
+
+/* ================= RESEARCH ================= */
+.research {
+    position: relative;
+    /* This points to your library bookshelf image */
+    background: url("../assets/library.jpg") center/cover no-repeat;
+    padding: 120px 8%;
+    color: white;
+}
+
+.research-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+}
+
+.research-content {
+    position: relative;
     max-width: 600px;
 }
 
-.cta-button {
-    background: #4A8C6F;
-    color: white;
+.btn-secondary {
+    display: inline-block;
+    margin-top: 20px;
+    background: white;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 20px;
     text-decoration: none;
-    padding: 18px 40px;
-    font-size: 18px;
-    font-weight: 700;
-    border-radius: 12px;
-    box-shadow: 0 10px 20px rgba(74, 140, 111, 0.2);
+    font-size: 14px;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: #f0f0f0;
+    font-size: 14px;
+    color: #555;
 }
